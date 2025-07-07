@@ -1,49 +1,27 @@
-import java.util.*;
+import java.util.Map;
 
 public class AdminIssuedTracker {
-
-    private Manager manager;
+    Manager manager;
 
     public AdminIssuedTracker(Manager manager) {
         this.manager = manager;
     }
 
-    // 1️⃣ View all issued books
-    public void viewIssuedBooks() {
-        HashMap<String, String> issued = manager.IssuedBook;
-
-        if (issued.isEmpty()) {
-            System.out.println("❌ No books have been issued yet.");
+    public void displayIssuedBooks() {
+        if (manager.IssuedBook.isEmpty()) {
+            System.out.println("No books have been issued to any user.");
             return;
         }
 
-        System.out.println("\n📚 Issued Books List:\n");
+        System.out.println("Issued Book List:");
 
-        for (Map.Entry<String, String> entry : issued.entrySet()) {
-            String user = entry.getKey();
-            String title = entry.getValue();
+        for (Map.Entry<String, BookData> entry : manager.IssuedBook.entrySet()) {
+            String email = entry.getKey();
+            BookData book = entry.getValue();
 
-            System.out.println("👤 User Name: " + user);
-            System.out.println("📘 Book Title: " + title);
-            System.out.println("----------------------------------");
-        }
-    }
-
-    // 2️⃣ Remove issued book by user name
-    public void removeIssuedBookByUser() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the name of the user to revoke issued book: ");
-        String user = sc.nextLine();
-
-        HashMap<String, String> issued = manager.IssuedBook;
-
-        if (issued.containsKey(user)) {
-            String returnedBook = issued.remove(user); // remove from IssuedBook map
-            manager.BooksList.put(returnedBook, new BookData(returnedBook, "Unknown", "No summary")); // basic restore
-
-            System.out.println("✅ Issued book '" + returnedBook + "' removed and returned to library.");
-        } else {
-            System.out.println("❌ No book found issued to this user.");
+            System.out.println("User Email: " + email);
+            System.out.println(book);
+            System.out.println("_______________---------______________");
         }
     }
 }

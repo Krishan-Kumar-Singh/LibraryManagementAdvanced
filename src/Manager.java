@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Manager {
     HashMap<String, BookData> BooksList;
-    HashMap<String, String> IssuedBook;
+    HashMap<String, BookData> IssuedBook;
 
 
     public Manager() {
@@ -34,13 +34,19 @@ public class Manager {
 
         }
 
-        if(IssuedBook.containsValue(bookTitle)){
+        for(BookData book : IssuedBook.values()){
+            if(book.getBookTitle().equals(bookTitle)){
 
-            System.out.println("Sorry the book you are looking for is already issued by Existing user!");
-            return;
+                System.out.println("Sorry the book you are looking for is already issued by Existing user!");
+                return;
 
+            }
         }
-        IssuedBook.put(userName, bookTitle);
+
+
+
+        BookData book = BooksList.get(bookTitle);
+        IssuedBook.put(userName, book);
         BooksList.remove(bookTitle);
 
         System.out.println("Book :" + bookTitle + "Has been issued to :" + userName);
@@ -55,10 +61,38 @@ public class Manager {
             System.out.println("Available Books in the Library:");
             for (Map.Entry<String, BookData> entry : BooksList.entrySet()) {
                 System.out.println("Title: " + entry.getKey());
-                System.out.println(entry.getValue()); // This uses the toString() method from BookData
-                System.out.println("--------------------------------------------------");
+                System.out.println(entry.getValue());
+                System.out.println("----------------------------");
             }
         }
+    }
+
+    public boolean isBookPresent(String title){
+        return BooksList.containsKey(title);
+    }
+
+    public void AddBook(BookData book){
+         BooksList.put(book.getBookTitle(), book);
+    }
+
+    public void ReturnBook(String email){
+
+        if(IssuedBook.containsKey(email)){
+            BookData book = IssuedBook.get(email);
+
+            BooksList.put(book.getBookTitle(), book);
+
+            IssuedBook.remove(email);
+
+            System.out.println("Book Returned from :" + email);
+
+        }
+
+        else{
+            System.out.println("This user has no book issued");
+        }
+
+
     }
 
 

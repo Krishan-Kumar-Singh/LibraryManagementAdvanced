@@ -1,55 +1,24 @@
-import java.util.*;
+
+import java.util.Scanner;
 
 public class AdminUserManager {
+    RegisterUser registerUser;
+    Manager manager;
+    Scanner sc = new Scanner(System.in);
 
-    private RegisterUser registerUser;
-
-    public AdminUserManager(RegisterUser registerUser) {
+    public AdminUserManager(RegisterUser registerUser, Manager manager) {
         this.registerUser = registerUser;
+        this.manager = manager;
     }
 
-    // 1️⃣ Show all registered users
-    public void viewUsers() {
-        LinkedList<UserData> users = registerUser.getUserList();
-
-        if (users.isEmpty()) {
-            System.out.println("❌ No registered users found.");
-            return;
-        }
-
-        System.out.println("\n📋 Registered Users:\n");
-
-        for (UserData user : users) {
-            System.out.println(user);
-            System.out.println("-----------------------------");
-        }
-    }
-
-    // 2️⃣ Remove a user by email
-    public void removeUserByEmail() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter email of user to remove: ");
+    public void removeUserAndReturnBook() {
+        System.out.println("Enter the email of the user you want to remove:");
         String email = sc.nextLine();
 
-        LinkedList<UserData> users = registerUser.getUserList();
-        boolean found = false;
+        // Step 1: Return the book (if any)
+        manager.ReturnBook(email);
 
-        Iterator<UserData> iterator = users.iterator();
-
-        while (iterator.hasNext()) {
-            UserData user = iterator.next();
-            if (user.getEmail().equalsIgnoreCase(email)) {
-                iterator.remove(); // remove from list
-                found = true;
-                break;
-            }
-        }
-
-        if (found) {
-            registerUser.RegisteredEmail.remove(email); // also remove from email HashSet
-            System.out.println("✅ User removed successfully.");
-        } else {
-            System.out.println("❌ User not found with that email.");
-        }
+        // Step 2: Remove the user
+        registerUser.RemoveUser();
     }
 }
