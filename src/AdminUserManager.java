@@ -15,10 +15,10 @@ public class AdminUserManager {
         System.out.println("Enter the email of the user you want to remove:");
         String email = sc.nextLine();
 
-        // Step 1: Return the book (if any)
+
         manager.ReturnBook(email);
 
-        // Step 2: Remove the user
+
         registerUser.RemoveUser();
     }
 }

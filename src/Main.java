@@ -5,7 +5,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         RegisterUser registerUser = new RegisterUser();
         Manager manager = new Manager();
-        manager.AvailableBooks(); // Load books
+        manager.AvailableBooks();
         AdminLogin adminLogin = new AdminLogin();
 
         while (true) {
